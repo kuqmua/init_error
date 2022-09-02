@@ -1,10 +1,9 @@
-#[proc_macro_derive(DeriveInitError)]
+#[proc_macro_derive(InitError)]
 pub fn derive_init_error(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    let ast: syn::DeriveInput =
-        syn::parse(input).expect("DeriveInitError syn::parse(input) failed");
+    let ast: syn::DeriveInput = syn::parse(input).expect("InitError syn::parse(input) failed");
     let fields = match ast.data {
         syn::Data::Struct(struct_item) => struct_item.fields,
-        _ => panic!("DeriveInitError only works on structs"),
+        _ => panic!("InitError only works on structs"),
     };
     let ident = &ast.ident;
     let source_type_ident = match fields {
@@ -38,16 +37,16 @@ pub fn derive_init_error(input: proc_macro::TokenStream) -> proc_macro::TokenStr
                         _ => panic!("DeriveStructFieldSetter only works on structs fields with  syn::Type::Path type"),
                     }
                 }
-                _ => panic!("DeriveInitError fields_named.len() != 2"),
+                _ => panic!("InitError fields_named.len() != 2"),
             }
         }
         // syn::Fields::Unnamed(_) => todo!(),
         // syn::Fields::Unit => todo!(),
-        _ => panic!("DeriveInitError only works with named fields"),
+        _ => panic!("InitError only works with named fields"),
     };
     let gen = quote::quote! {
         impl #ident {
-            pub fn new(source: #source_type_ident, where_was: Vec<crate::helpers::where_was::WhereWasOneOrFew>) -> Self {
+            pub fn new(source: #source_type_ident, where_was: WhereWas) -> Self {
                 Self { source, where_was }
             }
         }
