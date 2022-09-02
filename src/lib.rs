@@ -28,13 +28,15 @@ pub fn derive_init_error(input: proc_macro::TokenStream) -> proc_macro::TokenStr
                         syn::Type::Path(type_path) => {
                             if type_path.path.segments.len() != 1 {
                                 panic!(
-                                    "DeriveStructFieldSetter type_path.path.segments != 1, length is {}",
+                                    "InitError type_path.path.segments != 1, length is {}",
                                     type_path.path.segments.len()
                                 );
                             }
                             type_path.path.segments[0].ident.clone()
                         }
-                        _ => panic!("DeriveStructFieldSetter only works on structs fields with  syn::Type::Path type"),
+                        _ => panic!(
+                            "InitError only works on structs fields with  syn::Type::Path type"
+                        ),
                     }
                 }
                 _ => panic!("InitError fields_named.len() != 2"),
