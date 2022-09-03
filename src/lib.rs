@@ -48,7 +48,7 @@ pub fn derive_init_error(input: proc_macro::TokenStream) -> proc_macro::TokenStr
     };
     let gen = quote::quote! {
         impl #ident {
-            pub fn new(source: #source_type_ident, where_was: WhereWas) -> Self {
+            pub fn new(source: #source_type_ident, where_was: crate::helpers::where_was::WhereWas) -> Self {
                 Self { source, where_was }
             }
         }
