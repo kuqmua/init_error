@@ -25,15 +25,7 @@ pub fn derive_init_error(input: proc_macro::TokenStream) -> proc_macro::TokenStr
                         // syn::Type::TraitObject(_) => todo!(),
                         // syn::Type::Tuple(_) => todo!(),
                         // syn::Type::Verbatim(_) => todo!(),
-                        syn::Type::Path(type_path) => {
-                            if type_path.path.segments.len() != 1 {
-                                panic!(
-                                    "InitError type_path.path.segments != 1, length is {}",
-                                    type_path.path.segments.len()
-                                );
-                            }
-                            type_path.path.segments[0].ident.clone()
-                        }
+                        syn::Type::Path(type_path) => type_path.clone(),
                         _ => panic!(
                             "InitError only works on structs fields with  syn::Type::Path type"
                         ),
