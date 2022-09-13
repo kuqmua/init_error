@@ -41,7 +41,7 @@ pub fn derive_init_error(input: proc_macro::TokenStream) -> proc_macro::TokenStr
     let gen = quote::quote! {
         use crate::traits::new_error::NewError;
         impl crate::traits::new_error::NewError<#source_type_ident> for #ident {
-            fn new(source: #source_type_ident, where_was: crate::helpers::where_was::WhereWas) -> Self {
+            fn new(source: #source_type_ident, where_was: tufa_common::where_was::WhereWas) -> Self {
                 Self { source, where_was }
             }
         }
