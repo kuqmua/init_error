@@ -39,7 +39,6 @@ pub fn derive_init_error(input: proc_macro::TokenStream) -> proc_macro::TokenStr
         _ => panic!("InitError only works with named fields"),
     };
     let gen = quote::quote! {
-        use tufa_common::traits::new_error::NewError;
         impl tufa_common::traits::new_error::NewError<#source_type_ident> for #ident {
             fn new(source: #source_type_ident, where_was: tufa_common::where_was::WhereWas) -> Self {
                 Self { source, where_was }
