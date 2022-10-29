@@ -1,6 +1,19 @@
-// use tufa_common::traits::new_error::NewError;
-#[proc_macro_derive(InitError)]
-pub fn derive_init_error(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+#[proc_macro_derive(InitErrorFromTufaCommon)]
+pub fn derive_init_error_from_tufa_common(
+    input: proc_macro::TokenStream,
+) -> proc_macro::TokenStream {
+    generate(input, proc_macro_helpers::path::Path::TufaCommon)
+}
+
+#[proc_macro_derive(InitErrorFromCrate)]
+pub fn derive_init_error_from_crate(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    generate(input, proc_macro_helpers::path::Path::Crate)
+}
+
+fn generate(
+    input: proc_macro::TokenStream,
+    path: proc_macro_helpers::path::Path,
+) -> proc_macro::TokenStream {
     let ast: syn::DeriveInput = syn::parse(input).expect("InitError syn::parse(input) failed");
     let fields = match ast.data {
         syn::Data::Struct(struct_item) => struct_item.fields,
@@ -39,9 +52,15 @@ pub fn derive_init_error(input: proc_macro::TokenStream) -> proc_macro::TokenStr
         // syn::Fields::Unit => todo!(),
         _ => panic!("InitError only works with named fields"),
     };
+    let new_error_token_stream = format!("{path}::traits::new_error::NewError")
+        .parse::<proc_macro2::TokenStream>()
+        .expect("path parse failed");
+    let where_was_token_stream = format!("{path}::where_was::WhereWas")
+        .parse::<proc_macro2::TokenStream>()
+        .expect("path parse failed");
     let gen = quote::quote! {
-        impl NewError<#source_type_ident> for #ident {
-            fn new(source: #source_type_ident, where_was: WhereWas) -> Self {
+        impl #new_error_token_stream<#source_type_ident> for #ident {
+            fn new(source: #source_type_ident, where_was: #where_was_token_stream) -> Self {
                 Self { source, where_was }
             }
         }
