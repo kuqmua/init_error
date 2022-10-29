@@ -13,12 +13,11 @@ pub fn derive_init_error_from_tufa_common(
 pub fn derive_init_error_from_crate(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     generate(
         input,
-        "tufa_common::traits::new_error::NewError",
-        "tufa_common::where_was::WhereWas",
+        "crate::traits::new_error::NewError",
+        "crate::where_was::WhereWas",
     )
 }
-// tufa_common::traits::new_error::NewError
-// tufa_common::where_was::WhereWas
+
 fn generate(
     input: proc_macro::TokenStream,
     new_error_path: &str,
