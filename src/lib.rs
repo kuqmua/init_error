@@ -55,7 +55,7 @@ fn generate(
     let new_error_token_stream = format!("{path}::traits::new_error::NewError")
         .parse::<proc_macro2::TokenStream>()
         .expect("path parse failed");
-    let where_was_token_stream = format!("{path}::where_was::WhereWas")
+    let where_was_token_stream = format!("{path}::common::where_was::WhereWas")
         .parse::<proc_macro2::TokenStream>()
         .expect("path parse failed");
     let gen = quote::quote! {
