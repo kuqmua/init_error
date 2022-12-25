@@ -1,1 +1,1 @@
-# init_error
+### [setup](https://github.com/kuqmua/tufa_project/blob/main/setup.md#heading15)
